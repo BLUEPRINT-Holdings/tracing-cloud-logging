@@ -1,4 +1,6 @@
-# `tracing-stackdriver`
+# `tracing-cloud-logging`
+
+> ⚠️ **Note**: This repository is a fork of [NAlexPear/tracing-stackdriver](https://github.com/NAlexPear/tracing-stackdriver).
 
 ![Pre-release Checks](https://github.com/NAlexPear/tracing-stackdriver/actions/workflows/check.yml/badge.svg?branch=master)
 ![Crates.io](https://img.shields.io/crates/v/tracing-stackdriver)
