@@ -1,13 +1,12 @@
 [package]
-name = "tracing-stackdriver"
+name = "tracing-cloud-logging"
 version = "0.10.0"
-authors = ["Alex Pearson <alex@alexpear.com>"]
 edition = "2021"
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/NAlexPear/tracing-stackdriver"
-description = "Stackdriver-compatible tracing layer and event formatter"
-keywords = ["tracing", "stackdriver", "logging", "google", "gcp"]
+repository = "https://github.com/BLUEPRINT-Holdings/tracing-cloud-logging"
+description = "Cloud Logging compatible tracing layer and event formatter"
+keywords = ["tracing", "cloud-logging", "logging", "google", "gcp"]
 
 [badges.maintenance]
 status = "actively-developed"
