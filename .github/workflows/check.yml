@@ -1,8 +1,9 @@
-name: Pre-release Checks
+name: CI Checks
 on:
   push:
-    branches-ignore:
+    branches:
       - main
+  pull_request:
   workflow_call:
 
 env:
@@ -16,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install stable toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -28,19 +29,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
-      - name: ⚡ Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        uses: actions/checkout@v4
       - name: Install stable toolchain
         uses: dtolnay/rust-toolchain@stable
+      - name: ⚡ Cache
+        uses: Swatinem/rust-cache@v2
       - name: Run cargo check
         run: cargo check --all-features
   test:
@@ -48,19 +41,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
-      - name: ⚡ Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-test-${{ hashFiles('**/Cargo.lock') }}
+        uses: actions/checkout@v4
       - name: Install stable toolchain
         uses: dtolnay/rust-toolchain@stable
+      - name: ⚡ Cache
+        uses: Swatinem/rust-cache@v2
       - name: Run cargo test
         run: cargo test --all-features
   lint:
@@ -68,21 +53,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
-      - name: ⚡ Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        uses: actions/checkout@v4
       - name: Install stable toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
+      - name: ⚡ Cache
+        uses: Swatinem/rust-cache@v2
       - name: Run cargo clippy
         run: cargo clippy --all-features -- -D warnings
   docs:
@@ -90,19 +67,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
-      - name: ⚡ Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-docs-${{ hashFiles('**/Cargo.lock') }}
+        uses: actions/checkout@v4
       - name: Install nightly toolchain
         uses: dtolnay/rust-toolchain@nightly
+      - name: ⚡ Cache
+        uses: Swatinem/rust-cache@v2
       - name: Run cargo doc
         # `--no-deps` avoids documenting dependencies such as `valuable`, whose older
         # `#![cfg_attr(docsrs, feature(...))]` attributes reference nightly doc features
