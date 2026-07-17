@@ -114,3 +114,37 @@ fn includes_flattened_fields() {
     assert_eq!(event.baz, baz);
     assert_eq!(event.message, "some stackdriver message");
 }
+
+#[test]
+fn includes_f64_fields_as_json_numbers() {
+    let events = run_with_tracing::<BTreeMap<String, serde_json::Value>>(|| {
+        tracing::info!(age_seconds = 12.5, "heartbeat")
+    })
+    .expect("Error converting test buffer to JSON");
+
+    let event = events.first().expect("No event heard");
+    assert_eq!(
+        event.get("ageSeconds"),
+        Some(&serde_json::json!(12.5)),
+        "f64 fields must serialize as JSON numbers, not strings; full event: {:?}",
+        event
+    );
+}
+
+#[test]
+fn maps_non_finite_f64_fields_to_null() {
+    // JSON has no NaN / Infinity: `serde_json::Value::from(f64)` yields `Null` for them.
+    // Pin that behavior so the field type stays number-or-null (never a string).
+    let events = run_with_tracing::<BTreeMap<String, serde_json::Value>>(|| {
+        tracing::info!(bad = f64::NAN, "non-finite value")
+    })
+    .expect("Error converting test buffer to JSON");
+
+    let event = events.first().expect("No event heard");
+    assert_eq!(
+        event.get("bad"),
+        Some(&serde_json::Value::Null),
+        "non-finite f64 must map to null; full event: {:?}",
+        event
+    );
+}
