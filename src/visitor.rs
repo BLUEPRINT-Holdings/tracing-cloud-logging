@@ -114,6 +114,15 @@ where
             .insert(field.name(), serde_json::Value::from(value));
     }
 
+    fn record_f64(&mut self, field: &Field, value: f64) {
+        // `Value::from(f64)` maps non-finite values (NaN / Infinity) to `Null` since JSON
+        // has no representation for them. We keep that instead of falling back to a string
+        // so the field stays number-or-null and log-based metric / BigQuery value
+        // extraction never sees mixed types.
+        self.values
+            .insert(field.name(), serde_json::Value::from(value));
+    }
+
     fn record_bool(&mut self, field: &Field, value: bool) {
         self.values
             .insert(field.name(), serde_json::Value::from(value));

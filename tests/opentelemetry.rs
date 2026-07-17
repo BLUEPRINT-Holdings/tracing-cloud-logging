@@ -12,7 +12,7 @@ use std::{
     fmt::Debug,
     sync::{Arc, Mutex},
 };
-use tracing_stackdriver::CloudTraceConfiguration;
+use tracing_cloud_logging::CloudTraceConfiguration;
 use tracing_subscriber::{fmt::MakeWriter, layer::SubscriberExt};
 
 mod helpers;
@@ -68,7 +68,7 @@ where
                 .with_tracer(TRACER.tracer("test")),
         )
         .with(
-            tracing_stackdriver::layer()
+            tracing_cloud_logging::layer()
                 .with_writer(make_writer)
                 .with_cloud_trace(CLOUD_TRACE_CONFIGURATION.clone()),
         );
