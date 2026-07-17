@@ -6,13 +6,13 @@ use crate::{
 };
 use serde::ser::{SerializeMap, Serializer as _};
 use std::fmt;
-use time::{format_description::well_known::Rfc3339, OffsetDateTime};
+use time::{OffsetDateTime, format_description::well_known::Rfc3339};
 use tracing_core::{Event, Subscriber};
 use tracing_subscriber::{
     field::VisitOutput,
     fmt::{
-        format::{self, JsonFields},
         FmtContext, FormatEvent,
+        format::{self, JsonFields},
     },
     registry::LookupSpan,
 };
@@ -70,16 +70,16 @@ impl EventFormatter {
         map.serialize_entry("time", &time)?;
         map.serialize_entry("target", &meta.target())?;
 
-        if self.include_source_location {
-            if let Some(file) = meta.file() {
-                map.serialize_entry(
-                    "logging.googleapis.com/sourceLocation",
-                    &SourceLocation {
-                        file,
-                        line: meta.line(),
-                    },
-                )?;
-            }
+        if self.include_source_location
+            && let Some(file) = meta.file()
+        {
+            map.serialize_entry(
+                "logging.googleapis.com/sourceLocation",
+                &SourceLocation {
+                    file,
+                    line: meta.line(),
+                },
+            )?;
         }
 
         // serialize the current span and its leaves

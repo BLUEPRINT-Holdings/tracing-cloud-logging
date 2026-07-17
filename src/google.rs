@@ -90,10 +90,10 @@ impl From<serde_json::Value> for LogSeverity {
 
         // handle wacky object encoding of Valuable enums
         #[cfg(all(tracing_unstable, feature = "valuable"))]
-        if let Some(map) = json.as_object() {
-            if let Some(key) = map.keys().next() {
-                return Self::from_str(key).unwrap_or(Self::Default);
-            }
+        if let Some(map) = json.as_object()
+            && let Some(key) = map.keys().next()
+        {
+            return Self::from_str(key).unwrap_or(Self::Default);
         }
 
         Self::Default

@@ -5,7 +5,7 @@ use std::{
     sync::{Arc, Mutex, TryLockError},
 };
 use tracing_cloud_logging::Layer;
-use tracing_subscriber::{layer::SubscriberExt, Registry};
+use tracing_subscriber::{Registry, layer::SubscriberExt};
 
 /// Run a traced callback against the default Layer configuration,
 /// deserializing into a collection of a single event type `E`. For deserializing events

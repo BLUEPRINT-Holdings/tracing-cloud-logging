@@ -7,7 +7,7 @@ use opentelemetry::{
 };
 use opentelemetry_sdk::trace::TracerProvider;
 use rand::Rng;
-use serde::{de::Error, Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, de::Error};
 use std::{
     fmt::Debug,
     sync::{Arc, Mutex},
@@ -98,8 +98,8 @@ fn includes_correct_cloud_trace_fields() {
 
     // generate relevant IDs
     let mut rng = rand::thread_rng();
-    let span_id = SpanId::from_u64(rng.gen());
-    let trace_id = TraceId::from_u128(rng.gen());
+    let span_id = SpanId::from_u64(rng.r#gen());
+    let trace_id = TraceId::from_u128(rng.r#gen());
 
     // generate a tracing-based event
     test_with_tracing(span_id, trace_id, make_writer, || {
@@ -137,8 +137,8 @@ fn handles_nested_spans() {
 
     // generate relevant IDs
     let mut rng = rand::thread_rng();
-    let span_id = SpanId::from_u64(rng.gen());
-    let trace_id = TraceId::from_u128(rng.gen());
+    let span_id = SpanId::from_u64(rng.r#gen());
+    let trace_id = TraceId::from_u128(rng.r#gen());
 
     // generate a set of nested tracing-based events
     test_with_tracing(span_id, trace_id, make_writer, || {
