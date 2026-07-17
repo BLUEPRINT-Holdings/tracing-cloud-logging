@@ -2,7 +2,7 @@ use crate::event_formatter::EventFormatter;
 use std::{fmt, io, ops::Deref};
 use tracing_core::{Event, Subscriber};
 use tracing_subscriber::{
-    fmt::{format::JsonFields, MakeWriter},
+    fmt::{MakeWriter, format::JsonFields},
     registry::LookupSpan,
 };
 
@@ -128,7 +128,7 @@ where
     }
 
     unsafe fn downcast_raw(&self, id: std::any::TypeId) -> Option<*const ()> {
-        self.0.downcast_raw(id)
+        unsafe { self.0.downcast_raw(id) }
     }
 }
 

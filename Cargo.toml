@@ -1,7 +1,8 @@
 [package]
 name = "tracing-cloud-logging"
 version = "0.10.0"
-edition = "2021"
+edition = "2024"
+rust-version = "1.96.1"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/BLUEPRINT-Holdings/tracing-cloud-logging"

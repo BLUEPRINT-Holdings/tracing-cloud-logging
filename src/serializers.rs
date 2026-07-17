@@ -2,7 +2,7 @@ use serde::ser::{Serialize, SerializeMap, SerializeSeq};
 use serde_json::Value;
 use tracing_core::Subscriber;
 use tracing_subscriber::{
-    fmt::{format::JsonFields, FmtContext, FormattedFields},
+    fmt::{FmtContext, FormattedFields, format::JsonFields},
     registry::{LookupSpan, SpanRef},
 };
 
