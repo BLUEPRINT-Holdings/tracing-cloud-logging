@@ -107,4 +107,8 @@ jobs:
       - name: Install nightly toolchain
         uses: dtolnay/rust-toolchain@nightly
       - name: Run cargo doc
-        run: cargo doc --all-features
+        # `--no-deps` avoids documenting dependencies such as `valuable`, whose older
+        # `#![cfg_attr(docsrs, feature(...))]` attributes reference nightly doc features
+        # that were removed in Rust 1.92. This also mirrors how docs.rs documents only
+        # this crate.
+        run: cargo doc --no-deps --all-features
