@@ -1,3 +1,7 @@
+// Shared test mocks are included by multiple integration test binaries, so each binary only
+// uses a subset of these structs and fields. Suppress the resulting dead-code warnings.
+#![allow(dead_code)]
+
 use serde::Deserialize;
 use std::collections::BTreeMap;
 use time::OffsetDateTime;

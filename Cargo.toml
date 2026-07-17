@@ -84,5 +84,11 @@ features = ["trace"]
 version = "0.3.0"
 
 [features]
-valuable = ["dep:valuable", "valuable-serde", "http", "url"]
+valuable = ["dep:valuable", "valuable-serde", "http", "url", "tracing-core/valuable"]
 opentelemetry = ["dep:opentelemetry", "tracing-opentelemetry"]
+
+[lints.rust]
+# `tracing_unstable` is enabled via `RUSTFLAGS="--cfg tracing_unstable"` to opt into
+# tracing's unstable `valuable` support. Declare it here so the compiler does not warn
+# about an unexpected `cfg` condition name.
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(tracing_unstable)'] }
