@@ -21,9 +21,9 @@ fn nests_labels() {
     .expect("Error converting test buffer to JSON");
 
     let event = events.first().expect("No event heard");
-    assert!(event.labels.get("foo").is_some());
+    assert!(event.labels.contains_key("foo"));
     assert_eq!(event.labels.get("foo"), labels.get("foo"));
-    assert!(event.labels.get("baz").is_some());
+    assert!(event.labels.contains_key("baz"));
     assert_eq!(event.labels.get("baz"), labels.get("baz"));
 }
 
