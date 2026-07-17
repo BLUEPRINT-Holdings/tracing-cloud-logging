@@ -4,7 +4,7 @@ use helpers::run_with_tracing;
 use mocks::{MockDefaultEvent, MockHttpEvent};
 use serde::Deserialize;
 use std::fmt::Debug;
-use tracing_stackdriver::LogSeverity;
+use tracing_cloud_logging::LogSeverity;
 use valuable::Valuable;
 
 mod helpers;
@@ -31,7 +31,7 @@ fn validates_structured_http_requests() {
     let status = http::StatusCode::OK;
     let remote_ip = std::net::IpAddr::from([127, 0, 0, 1]);
 
-    let http_request = tracing_stackdriver::HttpRequest {
+    let http_request = tracing_cloud_logging::HttpRequest {
         request_method: Some(request_method.clone()),
         latency: Some(latency),
         status: Some(status),
